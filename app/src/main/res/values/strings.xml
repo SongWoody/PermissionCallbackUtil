@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PermissionCallbackUtil</string>
+    <string name="require_permission">Require Permission</string>
+</resources>

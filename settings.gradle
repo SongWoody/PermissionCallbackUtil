@@ -1,0 +1,2 @@
+rootProject.name='PermissionCallbackUtil'
+include ':app'
