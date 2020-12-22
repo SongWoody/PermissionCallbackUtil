@@ -17,7 +17,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class MainActivity : BaseActivity() {
     lateinit var binding : ActivityMainBinding
-
+    //
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -34,7 +34,7 @@ class MainActivity : BaseActivity() {
 
     private suspend fun requestPermission() : Boolean = suspendCoroutine { const ->
         // List of permissions to request
-        val permissionList: Array<String?> = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+        val permissionList = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.GET_ACCOUNTS)
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             permissionResultHelper.addActPermissionResultObserver(200, permissionList) { isAllGranted, permissions, grantResults ->

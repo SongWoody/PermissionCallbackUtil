@@ -21,14 +21,10 @@ class ActivityPermissionResultHelper(private val mContext: AppCompatActivity) {
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
-    ): Boolean {
-        val actOb = mActPermissionResultCallbackList[requestCode]
-        return if (actOb != null) {
-            actOb(isAllGranted(grantResults), permissions, grantResults)
+    ) {
+        mActPermissionResultCallbackList[requestCode]?.let {
+            it(isAllGranted(grantResults), permissions, grantResults)
             mActPermissionResultCallbackList.delete(requestCode)
-            true
-        } else {
-            false
         }
     }
 
@@ -37,25 +33,23 @@ class ActivityPermissionResultHelper(private val mContext: AppCompatActivity) {
      */
     fun addActPermissionResultObserver(
         requestCode: Int,
-        permissionList: Array<String?>?,
+        permissionList: Array<String>,
         atcResultCallback: PermissionCallback
     ) {
         mActPermissionResultCallbackList.append(requestCode, atcResultCallback)
-        ActivityCompat.requestPermissions(mContext, permissionList!!, requestCode)
+        ActivityCompat.requestPermissions(mContext, permissionList, requestCode)
     }
 
     /**
      * 모두 동의했는지 체크
      */
     private fun isAllGranted(grantResults: IntArray): Boolean {
-        var isAllGranted = true
-        for (grantResult in grantResults) {
-            if (grantResult == PackageManager.PERMISSION_DENIED) {
-                isAllGranted = false
-                break
+        grantResults.forEach {
+            if (it == PackageManager.PERMISSION_DENIED) {
+               return false
             }
         }
-        return isAllGranted
+        return true
     }
 
 }
